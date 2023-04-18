@@ -25,6 +25,15 @@ class ChirpsTest extends TestCase
         $response->assertOk();
     }
 
+    public function test_when_guest_chirps_page_is_not_displayed(): void 
+    {
+
+        $response = $this
+            ->get('/chirps');
+        
+        $response->assertRedirect('/login');
+    }
+
     public function test_chirps_can_be_posted(): void 
     {
         $user = User::factory()->create();
@@ -47,20 +56,37 @@ class ChirpsTest extends TestCase
     public function test_chirps_can_be_updated(): void
     {
         $user = User::factory()->create();
-        $chirp = Chirp::factory()->create();
+        $chirp = Chirp::factory()->create(['user_id' => $user->id]);
 
         $response = $this
         ->actingAs($user)
-        ->post('/chirps', [
-            "message" => $chirp->message
-        ])     
-        ->put('/chirps', [
-            "message" => "Hello World"
+        ->patch('/chirps/'.$chirp->id, [
+            "message" => "Goodbye World"
         ]);
 
         $response
             ->assertRedirect('/chirps');
         
-        $this -> assertSame('Hello World', $chirp->message);
+        $this -> assertDatabaseHas('chirps',[
+            'id' => $chirp->id,
+            'message' => 'Goodbye World'
+        ]);
     }
-} 
+
+    public function test_chirps_can_be_deleted(): void
+    {
+        $user = User::factory()->create();
+        $chirp = Chirp::factory()->create(['user_id' => $user->id]);
+
+        $response = $this
+        ->actingAs($user)
+        ->delete('/chirps/'.$chirp->id);
+
+        $response
+            ->assertRedirect('/chirps');
+        
+        $this -> assertDatabaseMissing('chirps',[
+            'id' => $chirp->id
+        ]);
+    }
+}
