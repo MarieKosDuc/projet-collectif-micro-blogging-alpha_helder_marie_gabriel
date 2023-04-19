@@ -54,6 +54,17 @@
                         </div>
                         <p class="mt-4 text-lg text-gray-900">{{ $chirp->message }}</p>
                     </div>
+                    <!-- insert comments form -->
+                    <form method="POST" action="{{ route('comments.store', ['chirp_id' => $chirp->id]) }}">
+                        @csrf
+                        <textarea
+                            name="comment"
+                            placeholder="{{ __('Care to comment?') }}"
+                            class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                        >{{ old('comment') }}</textarea>
+                        <x-input-error :messages="$errors->get('comment')" class="mt-2" />
+                        <x-primary-button class="mt-4">{{ __('Comment') }}</x-primary-button>
+                    </form>
                 </div>
             @endforeach
         </div>

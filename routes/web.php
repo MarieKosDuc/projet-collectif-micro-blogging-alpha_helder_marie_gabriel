@@ -3,7 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChirpController;
-
+use App\Http\Controllers\CommentsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,3 +36,5 @@ Route::resource('chirps', ChirpController::class)
     // routes to read, create, put, patch, delete
     ->only(['index', 'store', 'edit', 'update', 'destroy'])
     ->middleware(['auth', 'verified']);
+
+Route::post('/comments/{chirp_id}', [CommentsController::class, 'store'])->name('comments.store');
