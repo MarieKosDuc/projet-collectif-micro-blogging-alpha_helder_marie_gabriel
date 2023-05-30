@@ -14,7 +14,7 @@ All four of us had zero prior knowledge of both Laravel and Docker. Our first ch
 We then followed the Laravel Bootcamp and implemented our "Chirps" platform using Blade for the GUI!
 
 
-## Screenshot
+## Screenshots
 
 ![Screenshot](https://github.com/MarieKosDuc/projet-collectif-micro-blogging-alpha_helder_marie_gabriel/blob/master/Laravel-1.png?raw=true)
 
